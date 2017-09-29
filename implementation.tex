@@ -1,0 +1,286 @@
+%!TEX root = proposal.tex
+
+\chapter{Implementation}
+\label{cha:implementation}
+
+\section{Work plan --- Work packages, deliverables}
+\label{sec:work-plan}
+
+\instructions{
+Please provide the following:
+\begin{itemize}
+\item brief presentation of the overall structure of the work plan;
+\item timing of the different Work Packages and their components (Gantt chart or
+similar);
+\item detailed work description, i.e.:
+\begin{itemize}
+\item a description of each Work Package (Table 3.1a);
+\item a list of Work Packages (\autoref{tab:3.1b});
+\item a list of major deliverables (\autoref{tab:3.1c});
+\end{itemize}
+\item graphical presentation of the components showing how they inter-relate
+(Pert chart or similar).
+\end{itemize}
+
+\textit{Give full details. Base your account on the logical structure of the
+project and the stages in which it is to be carried out. The number of work
+packages should be proportionate to the scale and complexity of the project.}
+
+\textit{ You should give enough detail in each Work Package to justify the
+proposed resources to be allocated and also quantified information so that
+progress can be monitored, including by the Commission}
+
+\textit{ Resources assigned to Work Packages should be in line with their
+objectives and deliverables. You are advised to include a distinct Work Package
+on `management' (see section 3.2) and to give due visibility in the work plan to
+`dissemination and exploitation' and `communication activities', either with
+distinct tasks or distinct Work Packages.}
+
+\textit{ You will be required to include an updated (or confirmed) `plan for the
+dissemination and exploitation of results' in both the periodic and final
+reports. (This does not apply to topics where a draft plan was not required.)
+This should include a record of activities related to dissemination and
+exploitation that have been undertaken and those still planned. A report of
+completed and planned communication activities will also be required.}
+
+\textit{If your project is taking part in the Pilot on Open Research Data, you
+must include a  `data management plan' as a distinct deliverable within the
+first 6 months of the project. A template for such a plan is given in the
+guidelines on data management in the H2020 Online Manual.  This deliverable will
+evolve during the lifetime of the project in order to present the status of the
+project's reflections on data management.}
+
+\textit{\textbf{Definitions:}}
+
+\textit{\underline{``Work Package''} means a major sub-division of the proposed
+project.}
+
+\textit{\underline{``Deliverable''} means a distinct output of the project,
+meaningful in terms of the project's overall objectives and constituted by a
+report, a document, a technical diagram, a software etc.}}
+
+\lipsum[1]
+
+\input{gantt}
+
+% Include work-packages as separate files
+\input{wp-management}
+\input{wp-other}
+
+\subsection{List of work packages}
+\label{sec:wplist}
+\makewplist%
+% \maketasklist%
+
+\subsection{List of deliverables}
+\label{sec:deliverables}
+
+\instructions{List of deliverables\footnote{If your action is taking part in the
+Pilot on Open Research Data, you must include a data management plan as a
+distinct deliverable within the first 6 months of the project.  This deliverable
+will evolve during the lifetime of the project in order to present the status of
+the project's reflections on data management. A template for such a plan is
+available in the H2020 Online Manual on the Participant Portal.}}
+
+\instructions{
+\textbf{KEY}\\ \emph{Deliverable numbers in order of delivery dates. Please use
+the numbering convention $<$WP number$>.<$number of deliverable within that
+WP$>$.}
+
+\textit{For example, deliverable 4.2 would be the second deliverable from work
+package 4.}
+
+\textbf{Type:}\\
+\textit{Use one of the following codes:}\\
+R\@: Document, report (excluding the periodic and final reports)\\
+DEM\@: Demonstrator, pilot, prototype, plan designs\\
+DEC\@: Websites, patents filing, press \& media actions, videos, etc.\\
+OTHER\@: Software, technical diagram, etc.
+
+\textbf{Dissemination level}:\\
+\textit{Use one of the following codes:}\\
+PU = Public, fully open, e.g., web\\
+CO = Confidential, restricted under conditions set out in Model Grant Agreement\\
+CI = Classified, information as referred to in Commission Decision 2001/844/EC.\\
+
+\textbf{Delivery date}:\\
+Measured in months from the project start date (month 1).
+}
+
+\makedeliverablelist%
+
+
+\section{Management structure, milestones and procedures}
+\label{sec:mgmt-struct}
+
+\instructions{
+\begin{itemize}
+\item Describe the organisational structure and the decision-making (including a
+list of milestones (\autoref{tab:3.2a}))
+\item Explain why the organisational structure and decision-making mechanisms
+are appropriate to the complexity and scale of the project.
+\item Describe, where relevant, how effective innovation management will be
+addressed in the management structure and work plan.
+\\
+\\
+\textit{Innovation management is a process which requires an understanding of both
+market and technical problems, with a goal of successfully implementing
+appropriate creative ideas. A new or improved product, service or process is its
+typical output. It also allows a consortium to respond to an external or
+internal opportunity.}
+\item Describe any critical risks, relating to project implementation, that the
+stated project's objectives may not be achieved. Detail any risk mitigation
+measures. Please provide a table with critical risks identified and mitigating
+actions (\autoref{tab:3.2b})
+\\
+\\
+\textit{\textbf{Definitions:}}
+\\
+\\
+\textit{\underline{`Milestones'} means control points in the project that help to
+chart progress. Milestones may correspond to the completion of a key
+deliverable, allowing the next phase of the work to begin. They may also be
+needed at intermediary points so that, if problems have arisen, corrective
+measures can be taken. A milestone may be a critical decision point in the
+project where, for example, the consortium must decide which of several
+technologies to adopt for further development.}
+\end{itemize}
+}
+
+\lipsum[1]
+
+
+
+\subsection{Milestones}
+
+\instructions{
+\textbf{KEY}\\ \textbf{Estimated date}\\ \emph{Measured in months from the
+project start date (month 1)}
+
+\textbf{Means of verification}\\ \emph{Show how you will confirm that the
+milestone has been attained. Refer to indicators if appropriate. For example: a
+laboratory prototype that is `up and running'; software released and validated
+by a user group; field survey complete and data quality validated.}}
+
+% keep sorted by month
+
+\milestone[1]{Successful project launch}{Meeting minutes}{WP\ref{wp:mgmt}}
+
+\milestone[36]{Successful result}{Review report}{WP\ref{wp:mgmt}}
+
+\makemilestoneslist{}
+
+
+\subsection{Risk management}
+\label{sec:risks}
+
+\instructions{
+\textbf{Definition critical risk:}\\ \emph{A critical risk is a plausible event
+or issue that could have a high adverse impact on the ability of the project to
+achieve its objectives.}
+
+\textbf{Level of likelihood to occur: Low/medium/high}\\ \emph{The likelihood is
+the estimated probability that the risk will materialize even after taking
+account of the mitigating measures put in place.}}
+
+\lipsum[1]
+
+The foreseen project risks are described in \autoref{tab:3.2b}, below.
+
+\criticalrisk{Partner leaving the consortium}{All}{Low}{Medium}{
+The loss of a partner will be regulated by the Grant Agreement and the
+Consortium Agreement.}
+
+\makerisklist{}
+
+
+\section{Consortium as a whole}
+\label{sec:consortium}
+
+\instructions{
+\textit{The individual members of the consortium are described in a separate
+section 4. There is no need to repeat that information here.}
+\begin{itemize}
+\item Describe the consortium. How will it match the project's objectives, and
+bring together the necessary expertise? How do the members complement one
+another (and cover the value chain, where appropriate),?
+\item In what way does each of them contribute to the project? Show that each
+has a valid role, and adequate resources in the project to fulfill that role.
+\item If applicable, describe the industrial/commercial involvement in the
+project to ensure exploitation of the results and explain why this is consistent
+with and will help to achieve the specific measures which are proposed for
+exploitation of the results of the project (see section 2.2).
+\item \textbf{Other countries and international organizations:} If one or more
+of the participants requesting EU funding is based in a country or is an
+international organization that is not automatically eligible for such funding
+(entities from Member States of the EU, from Associated Countries and from one
+of the countries in the exhaustive list included in General Annex A of the work
+programme are automatically eligible for EU funding), explain why the
+participation of the entity in question is essential to carrying out the project
+\end{itemize}
+}
+
+\lipsum[1]
+
+
+\section{Resources to be committed}
+\label{sec:resources}
+
+\instructions{
+\textit{Please make sure the information in this section matches the costs as
+stated in the budget table in section 3 of the administrative proposal forms,
+and the number of person/months, shown in the detailed Work Package
+descriptions.}
+
+Please provide the following:\\
+\begin{itemize}
+\item a table showing number of person/months required (\autoref{tab:3.4a})
+\item a table showing ``other direct costs'' (\autoref{tab:3.4b}) for participants where those costs exceed \SI{15}{\percent} of the
+personnel costs (according to the budget table in section 3 of the
+administrative proposal forms)
+\end{itemize}
+}
+
+\subsection{Summary of staff efforts}
+\instructions{\autoref{tab:3.4a}: \emph{Please indicate the number of
+person/months over the whole duration of the planned work, for each work
+package, for each participant. Identify the work-package leader for each WP by
+showing the relevant person-month figure in bold.}}
+
+\makesummaryofefforttable%
+
+\subsection[`Other direct cost' items]{`Other direct cost' items (travel, equipment, other goods and
+services, large research infrastructure)}
+
+\instructions{ Please provide a table of summary of costs for each participant,
+if the sum of the costs for ``travel'', ``equipment'', and ``goods and
+services'' exceeds \SI{15}{\percent} of the personnel costs for that participant (according
+to the budget table in section 3 of the proposal administrative forms).}
+
+\lipsum[1]
+
+\costsTravel{TWO}{9999}{Travel costs for the project participation.}
+\costsConsumables{TWO}{9999}{Pizza.}
+\costsOther{TWO}{9999}{Open access payments.}
+
+\costsTravel{THREE}{9999}{Travel costs for the project participation.}
+\costsConsumables{THREE}{9999}{Pizza.}
+\costsOther{THREE}{9999}{Open access payments.}
+
+\makecoststable%
+
+\instructions{
+Please complete the table below for all participants that would like to declare
+costs of large research infrastructure under Article 6.2 of the General Model
+Agreement\footnote{Large research infrastructure means research infrastructure
+of a total value of at least EUR 20 million, for a beneficiary. More information
+and further guidance on the direct costing for the large research infrastructure
+is available in the H2020 Online Manual on the Participant Portal.},
+irrespective of the percentage of personnel costs. Please indicate (in the
+justification) if the beneficiary's methodology for declaring the costs for
+large research infrastructure has already been positively assessed by the
+Commission.}
+
+% \costslri{COORD}{400000}{Synchrotron}
+
+% \makelritable%

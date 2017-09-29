@@ -1,0 +1,74 @@
+%!TEX root = proposal.tex
+
+\makeatletter
+\tikzset{%
+  /pgfgantt/time slots/.code={%
+    \tikzset{%
+      /pgfgantt/time slots/.cd,
+      #1,
+      /pgfgantt/.cd,
+    }%
+  },
+  /pgfgantt/time slots/.search also={/pgfgantt},
+  /pgfgantt/time slots/.cd,
+  width/.store in=\ts@width,
+  width=\textwidth,
+  slots/.store in=\totaltimeslots,
+  slots=20,
+  label width/.store in=\ts@labelwidth,
+  label width=25mm,
+  calc x unit/.code n args=3{%
+    \pgfmathsetmacro\ts@xunit{(#1-#2-0.6667em-2*\pgflinewidth)/#3}%
+    \tikzset{%
+      /pgfgantt/x unit=\ts@xunit pt,
+    }%
+  },
+  widest/.code={%
+    \pgfmathsetmacro\ts@wdlabel{width("#1")}%
+    \tikzset{/pgfgantt/time slots/label width=\ts@wdlabel pt}%
+  },
+  calc x unit aux width/.style={/pgfgantt/time slots/calc x unit={#1}{\ts@labelwidth}{\totaltimeslots}},
+  calc x unit aux label width/.style={/pgfgantt/time slots/calc x unit={\ts@width}{#1}{\totaltimeslots}},
+  calc x unit aux slots/.style={/pgfgantt/time slots/calc x unit={\ts@width}{\ts@labelwidth}{#1}},
+  width/.forward to=/pgfgantt/time slots/calc x unit aux width,
+  slots/.forward to=/pgfgantt/time slots/calc x unit aux slots,
+  label width/.forward to=/pgfgantt/time slots/calc x unit aux label width,
+}
+\makeatother
+
+\begin{figure}[!hb]
+    \centering
+    \begin{ganttchart}[
+        time slots={slots=\arabic{@duration}, widest=TX.X},
+        bar height=.8,
+        bar inline label anchor=west,
+        bar inline label node/.append style={right, color=white, font=\small},
+        bar label font=\small,
+        bar/.append style={draw=black, fill=black!30},
+        % canvas/.append style={fill=none, draw=gray},
+        group height=.8,
+        group inline label anchor=west,
+        group inline label node/.append style={right, color=white, font=\small},
+        group label font=\bfseries\small,
+        group left shift=0,
+        group peaks height=.25,
+        group peaks tip position=0,
+        group right shift=0,
+        group/.append style={draw=black, fill=black!70},
+        milestone inline label node/.append style={font=\footnotesize},
+        milestone top shift=.55,
+        milestone/.append style={xscale=.55},
+        title height=1,
+        title label font=\footnotesize,
+        % title/.append style={fill=none, draw=gray},
+        vgrid,
+        y unit chart=.55cm,
+        y unit title=.55cm,
+    ]{1}{\arabic{@duration}}
+        \gantttitle{\acronym{} Project Month}{\arabic{@duration}} \\
+        \gantttitlelist{1,...,\arabic{@duration}}{1} \\
+        \ganttchartdata%
+    \end{ganttchart}
+\caption{\acronym{} Gantt chart.}
+\label{fig:gantt}
+\end{figure}

@@ -1,0 +1,200 @@
+%!TEX root = proposal.tex
+
+% warn about incorrect/obsolete latex (yes, this goes before \documentclass)
+\RequirePackage[l2tabu, orthodox, experimental]{nag}
+
+\documentclass[]{h2020proposal} % Use 'draft' option to show comments and labels
+
+\usepackage[autostyle=true, english=british]{csquotes}
+\usepackage[british]{babel}
+\usepackage{url}
+\usepackage[super]{nth}
+\usepackage[perpage]{footmisc}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage[backend=biber, style=trad-plain, sortcites=true, maxnames=12]{biblatex}
+\usepackage[capitalize, noabbrev, nameinlink]{cleveref}
+\usepackage{microtype}
+\usepackage{calc}
+\usepackage{lipsum}
+
+% mark overflow
+% \overfullrule=5mm
+
+\DeclareSIUnit\flops{FLOPS}
+
+\urlstyle{rm} %so it doesn't use a typewriter font for urls.
+
+\setsecnumdepth{subsection}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{6pt}
+
+\raggedbottom%
+\feetatbottom%
+
+\setcounter{secnumdepth}{5}
+
+% try harder to prevent widows and orphans
+\widowpenalty=10000
+\clubpenalty=10000
+
+\emergencystretch=.5em
+
+\addbibresource{proposal.bib}
+
+% highlight missing references and citations with red background
+\makeatletter
+\patchcmd{\@setref}{\bfseries??}{\colorbox{red!30}{\detokenize{#3}}}{}{}
+\ifdefined\HyRef@autosetref\patchcmd{\HyRef@autosetref}
+      {\else}{\else\colorbox{red!30}{\detokenize{#2}}}{}{}\fi
+\def\abx@missing#1{\colorbox{red!30}{\detokenize{#1}}}
+\makeatother
+
+
+% prefixes for \autoref
+\AtBeginDocument{
+\renewcommand{\chapterautorefname}{Section}
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{Section}
+\renewcommand{\subsubsectionautorefname}{Section}
+}
+\makeatletter
+\newcommand{\@wpcountautorefname}{Work Package} %{WP\@gobble}
+\newcommand{\@wptaskautorefname}{Task}
+\newcommand{\@wpdelivautorefname}{Deliverable}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ========================================================
+% IMPORTANT store proposal information in global variables
+% ========================================================
+\title{Lorem Ipsum}
+\shortname{LIPSUM}
+\titlelogo{}{0.25} % file name and scale
+\duration{36} % project duration in months
+\participant{Partner Coord}{COORD}{BE}{example-image-a}{partner-coord} % First participant is the coordinator
+\participant{Partner Two}{TWO}{NL}{example-image-b}{partner-two}
+\participant{Partner Three}{THREE}{DE}{example-image-c}{partner-three}
+
+% Page Headers
+%\makeoddhead{proposal}{\disptoken{@acronym}}{}{\rightmark}
+%\makeevenhead{proposal}{\leftmark}{}{\disptoken{@acronym}}
+
+% Page Footers
+%\makeevenfoot{proposal}{ \thepage }{ \date{\today} }{ \disptoken{@acronym} }
+%\makeoddfoot{proposal}{  }{ \date{\today} }{ \thepage }
+
+% Heading style
+\titleformat{\chapter}{\clearpage\bfseries\LARGE}{\makebox[1.25cm][l]{\thechapter.}}{0in}{}
+\titleformat{\section}{\bfseries\Large}{\makebox[1.25cm][l]{\thesection}}{0in}{}
+\titleformat{\subsection}{\bfseries\large}{\makebox[1.25cm][l]{\thesubsection}}{0in}{}
+\titleformat{\subsubsection}{\bfseries}{\makebox[1.25cm][l]{\thesubsubsection}}{0in}{}
+\titlespacing\chapter{0pt}{11pt plus 3pt minus 3pt}{6pt plus 2pt minus 2pt}
+\titlespacing\section{0pt}{11pt plus 3pt minus 3pt}{6pt plus 2pt minus 2pt}
+\titlespacing\subsection{0pt}{11pt plus 3pt minus 3pt}{2pt plus 1pt minus 1pt}
+\titlespacing\subsubsection{0pt}{11pt plus 3pt minus 3pt}{2pt plus 1pt minus 1pt}
+
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries\large}
+\renewcommand{\abstracttextfont}{\normalfont}
+\abstractintoc%
+
+\begin{document}
+
+\instructions{\hspace*{\fill}{\textbf{\LARGE{Proposal template: technical
+annex}}}\hspace*{\fill}}
+
+\instructions{\hspace*{\fill}\textit{(single stage submission procedure and
+\nth{2} stage of a two-stage submission procedure)}\hspace*{\fill}}
+
+\instructions{\hspace*{\fill}\textit{\textbf{\LARGE{Research and Innovation
+actions}}}\hspace*{\fill}}
+
+\instructions{\hspace*{\fill}\textit{\textbf{\LARGE{Innovation
+actions}}}\hspace*{\fill}}
+
+\instructions{This template is to be used in a single- stage submission
+procedure or at the \nth{2} stage of a two-stage submission procedure.}
+
+\instructions{The structure of this template must be followed when preparing
+your proposal. It has been designed to ensure that the important aspects of your
+planned work are presented in a way that will enable the experts to make an
+effective assessment against the evaluation criteria. Sections 1, 2 and 3 each
+correspond to an evaluation criterion.}
+
+\instructions{Please be aware that proposals will be evaluated as they were
+submitted, rather than on their potential if certain changes were to be made.
+This means that only proposals that successfully address all the required
+aspects will have a chance of being funded. There will be no possibility for
+significant changes to content, budget and consortium composition during grant
+preparation.}
+
+\instructions{\textbf{Page limit:} \underline{The cover page and sections 1, 2
+and 3, together should not be longer than 70 pages.} All tables, figures,
+references and any other element pertaining to these sections must be included
+as an integral part of these sections and are thus counted against this page
+limit.}
+
+\instructions{The page limit will be applied automatically; therefore you must
+remove this instruction page before submitting.}
+
+\instructions{If you attempt to upload a proposal longer than the specified
+limit before the deadline, you will receive an automatic warning and will be
+advised to shorten and re-upload the proposal. After the deadline, any excess
+pages will be overprinted with a `watermark', indicating to evaluators that
+these pages must be disregarded.}
+
+\instructions{Please, do not consider the page limit as a target! It is in your
+interest to keep your text as concise as possible, since experts rarely view
+unnecessarily long proposals in a positive light.}
+
+\instructions{The following formatting conditions apply.}
+
+\instructions{The reference font for the body text of H2020 proposals is Times
+New Roman (Windows platforms), Times/Times New Roman (Apple platforms) or Nimbus
+Roman No. 9 L (Linux distributions).}
+
+\instructions{The use of a different font for the body text is not advised and
+is subject to the cumulative conditions that the font is legible and that its
+use does not significantly shorten the representation of the proposal in number
+of pages compared to using the reference font (for example with a view to bypass
+the page limit).}
+
+\instructions{The minimum font size allowed is 11 points. Standard character
+spacing and a minimum of single line spacing is to be used.}
+
+\instructions{Text elements other than the body text, such as headers, foot/end
+notes, captions, formula's, may deviate, but must be legible.}
+
+\instructions{The page size is A4, and all margins (top, bottom, left, right)
+should be at least 15 mm (not including any footers or headers).}
+
+
+
+% TITLE
+\maketitle
+\instructions{Note: Consortium members are listed in part A. A summary list
+should also be provided in the table below.}
+
+\makeparticipantstable%
+% \input{abstract}
+\newpage
+\setcounter{tocdepth}{2}
+\renewcommand{\contentsname}{\LARGE Contents}
+\tableofcontents*
+
+% Main proposal
+% Fixed proposal structure - Do not change
+\input{excellence} % Section I
+\input{impact} % Section II
+\input{implementation} % Section III
+\input{members} % Section IV
+\input{ethics} % Section V
+
+\printbibliography%
+
+\end{document}
