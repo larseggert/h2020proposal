@@ -70,7 +70,7 @@
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{newtxtext}
-\usepackage[hypertexnames=false, bookmarks=false]{hyperref}
+\usepackage[hypertexnames=false, bookmarks=false, hidelinks]{hyperref}
 \usepackage{multirow}
 \usepackage{enumitem}
 \usepackage{siunitx}
