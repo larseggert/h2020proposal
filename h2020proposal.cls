@@ -477,17 +477,26 @@
 \newcommand{\makewptable} {%
   \setlength\tabcolsep{6pt}%
   % \renewcommand{\arraystretch}{1.1}
-  \begin{tabularx}{\textwidth}{|p{10em}|*{\value{@wptotgroups}}{>{\centering\arraybackslash}X|}}
+  \newcounter{@cols}%
+  \setcounter{@wppart}{0}%
+  \whiledo{\value{@wppart}<\value{@pcount}}{%
+    \stepcounter{@wppart}%
+    \@ifundefined{@pmLeader\arabic{@wppart}WP\arabic{@wpcount}}{%
+      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{\stepcounter{@cols}}%
+    }{\stepcounter{@cols}}%
+  }%
+  \ifthenelse{\value{@cols}<3}{\setcounter{@cols}{3}}{}%
+  \begin{tabularx}{\textwidth}{|p{10em}|*{\value{@cols}}{>{\centering\arraybackslash}X|}}
 
   \hline
   \textbf{Work package number} &
   \multicolumn{1}{l|}{WP\the@wpcount} &
-  \multicolumn{\the\numexpr\value{@wptotgroups}-2\relax}{r|}{\textbf{Lead beneficiary}} &
+  \multicolumn{\the\numexpr\value{@cols}-2\relax}{r|}{\textbf{Lead beneficiary}} &
   \multicolumn{1}{l|}{\disptoken{@wpLeader\arabic{@wpcount}} (\csname @pShortName\csname @wpLeader\arabic{@wpcount}\endcsname\endcsname) } \\
   \hline
 
   \textbf{Work package title} &
-  \multicolumn{\value{@wptotgroups}}{>{\hsize=\dimexpr\value{@wptotgroups}\hsize+\value{@wptotgroups}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
+  \multicolumn{\value{@cols}}{>{\hsize=\dimexpr\value{@cols}\hsize+\value{@cols}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
   \hline
 
   \textbf{Participant number}
@@ -501,7 +510,7 @@
 
   \textbf{Start month} &
   \multicolumn{1}{l|}{M\disptoken{@wp\arabic{@wpcount}StartMonth}} &
-  \multicolumn{\the\numexpr\value{@wptotgroups}-2\relax}{r|}{\textbf{End month}} &
+  \multicolumn{\the\numexpr\value{@cols}-2\relax}{r|}{\textbf{End month}} &
   \multicolumn{1}{l|}{M\disptoken{@wp\arabic{@wpcount}EndMonth}} \\
   \hline
   \end{tabularx}%
