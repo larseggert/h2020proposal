@@ -139,6 +139,7 @@
 \newcounter{@milestone} % Milestones counter
 \newcounter{@risk} % Critical risk counter
 \newcounter{@pcount} % Participant counter
+\newcounter{@geocount} % Countries counter
 \newcounter{@totpm} % Total project person months counter
 \newcounter{@totdeliv} % Total deliverables counter
 \newcounter{@tottask} % Total tasks counter
@@ -166,6 +167,10 @@
   \expandafter\xdef\csname @pCountry\arabic{@p#2num}\endcsname{#3}%
   \expandafter\xdef\csname @pLogo\arabic{@p#2num}\endcsname{#4}%
   \expandafter\xdef\csname @pDesc\arabic{@p#2num}\endcsname{#5}%
+  \@ifundefined{@country#3}{%
+   \stepcounter{@geocount}%
+   \expandafter\xdef\csname @country#3\endcsname{#3}%
+  }{}%
 }%
 % Display variables assigned
 \newcommand{\disptoken}[1]{%
