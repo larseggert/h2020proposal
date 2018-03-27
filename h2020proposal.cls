@@ -89,7 +89,7 @@
 \keepXColumns
 \setlength\tabcolsep{3pt} % default value: 6pt
 
-\renewcommand{\arraystretch}{1.1}
+\renewcommand{\arraystretch}{1.2}
 
 \mdfsetup{
   % linecolor=gray,
@@ -270,7 +270,7 @@
     \ifthenelse{\value{@pdesc}>1}{\clearpage}{}%
     \subsection{\disptoken{@pFullName\arabic{@pdesc}}}%
     \setlength\tabcolsep{6pt}
-    % \renewcommand{\arraystretch}{1.1}
+    \renewcommand{\arraystretch}{1.2}%
     \begin{tabularx}{\textwidth}{|l|Xc|}
       \hline
       \textbf{Participant number} & \the\value{@pdesc} \ifthenelse{\value{@pdesc}=1}{ (Coordinator)}{} & \multirow{4}{*}{\ifthenelse{\equal{\disptoken{@pLogo\arabic{@pdesc}}}{}}{\todo{LOGO MISSING}}{\raisebox{-.5\height}{\includegraphics[keepaspectratio, height=5em, width=\maxwidth{5cm}]{\disptoken{@pLogo\arabic{@pdesc}}}}}} \\
@@ -280,7 +280,8 @@
       \hline
     \end{tabularx}%
     \setlength\tabcolsep{3pt}
-    % \renewcommand{\arraystretch}{1}
+    \renewcommand{\arraystretch}{1}%
+    \vspace{-6pt}
     \begin{mdframed}%
     \vspace{-1em}%
     \ifthenelse{\equal{\disptoken{@pDesc\arabic{@pdesc}}}{}}{\todo{DESCRIPTION MISSING}}{\input{\disptoken{@pDesc\arabic{@pdesc}}}}
@@ -481,8 +482,8 @@
 % WP Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\makewptable} {%
-  \setlength\tabcolsep{6pt}%
-  % \renewcommand{\arraystretch}{1.1}
+  \setlength\tabcolsep{0pt}%
+  \renewcommand{\arraystretch}{1.2}%
   \setcounter{@wpactpart}{0}%
   \setcounter{@wppart}{0}%
   \whiledo{\value{@wppart}<\value{@pcount}}{%
@@ -492,37 +493,39 @@
     }{\stepcounter{@wpactpart}}%
   }%
   \ifthenelse{\value{@wpactpart}<3}{\setcounter{@wpactpart}{3}}{}%
+  \vspace{-9pt}
   \begin{tabularx}{\textwidth}{|p{10em}|*{\value{@wpactpart}}{>{\centering\arraybackslash}X|}}
 
   \hline
-  \textbf{Work package number} &
-  \multicolumn{1}{l|}{WP\the@wpcount} &
-  \multicolumn{\the\numexpr\value{@wpactpart}-2\relax}{r|}{\textbf{Lead beneficiary}} &
-  \multicolumn{1}{l|}{\disptoken{@wpLeader\arabic{@wpcount}} (\csname @pShortName\csname @wpLeader\arabic{@wpcount}\endcsname\endcsname) } \\
+  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package number}} &
+  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{WP\the@wpcount} &
+  \multicolumn{\the\numexpr\value{@wpactpart}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{Lead beneficiary}} &
+  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{\disptoken{@wpLeader\arabic{@wpcount}} (\csname @pShortName\csname @wpLeader\arabic{@wpcount}\endcsname\endcsname) } \\
   \hline
 
-  \textbf{Work package title} &
-  \multicolumn{\value{@wpactpart}}{>{\hsize=\dimexpr\value{@wpactpart}\hsize+\value{@wpactpart}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
+  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package title}} &
+  \multicolumn{\value{@wpactpart}}{@{\hspace{6pt}}>{\hsize=\dimexpr\value{@wpactpart}\hsize+\value{@wpactpart}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
   \hline
 
-  \textbf{Participant number}
+  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Participant number}}
   \wptablerow{\arabic{@wppart}}
 
-  \textbf{Short name}
+  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Short name}}
   \wptablerow{\disptoken{@pShortName\arabic{@wppart}}}
 
-  \textbf{Person months}
+  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Person months}}
   \wptablerow{\disptoken{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}}
 
-  \textbf{Start month} &
-  \multicolumn{1}{l|}{M\disptoken{@wp\arabic{@wpcount}StartMonth}} &
-  \multicolumn{\the\numexpr\value{@wpactpart}-2\relax}{r|}{\textbf{End month}} &
-  \multicolumn{1}{l|}{M\disptoken{@wp\arabic{@wpcount}EndMonth}} \\
+  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Start month}} &
+  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}StartMonth}} &
+  \multicolumn{\the\numexpr\value{@wpactpart}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{End month}} &
+  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}EndMonth}} \\
   \hline
   \end{tabularx}%
   \addtocounter{@totpm}{\value{@wp\arabic{@wpcount}totpm}}%
   \setlength\tabcolsep{3pt}%
-  % \renewcommand{\arraystretch}{1}
+  \renewcommand{\arraystretch}{1}%
+  \vspace{-9pt}
 }%
 
 
