@@ -464,14 +464,14 @@
 
 % WP Table row
 \newcounter{@wppart}
-\newcounter{@wpactpart}%
+\newcounter{@wpcol}%
 
 \newcommand{\wptablerow}[1]{%
   \setcounter{@wppart}{0}%
-  \whiledo{\value{@wppart}<\value{@pcount}}{%
+  \whiledo{\value{@wppart}<\value{@wpcol}}{%
     \stepcounter{@wppart}%
     \@ifundefined{@pmLeader\arabic{@wppart}WP\arabic{@wpcount}}{%
-      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{& #1}%
+      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{&}{& #1}%
     }{& \textbf{#1}}%
   }%
   \\
@@ -484,27 +484,27 @@
 \newcommand{\makewptable} {%
   \setlength\tabcolsep{0pt}%
   \renewcommand{\arraystretch}{1.2}%
-  \setcounter{@wpactpart}{0}%
+  \setcounter{@wpcol}{0}%
   \setcounter{@wppart}{0}%
   \whiledo{\value{@wppart}<\value{@pcount}}{%
     \stepcounter{@wppart}%
     \@ifundefined{@pmLeader\arabic{@wppart}WP\arabic{@wpcount}}{%
-      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{\stepcounter{@wpactpart}}%
-    }{\stepcounter{@wpactpart}}%
+      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{\stepcounter{@wpcol}}%
+    }{\stepcounter{@wpcol}}%
   }%
-  \ifthenelse{\value{@wpactpart}<3}{\setcounter{@wpactpart}{3}}{}%
+  \ifthenelse{\value{@wpcol}<3}{\setcounter{@wpcol}{3}}{}%
   \vspace{-9pt}
-  \begin{tabularx}{\textwidth}{|p{10em}|*{\value{@wpactpart}}{>{\centering\arraybackslash}X|}}
+  \begin{tabularx}{\textwidth}{|p{10em}|*{\value{@wpcol}}{>{\centering\arraybackslash}X|}}
 
   \hline
   \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package number}} &
   \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{WP\the@wpcount} &
-  \multicolumn{\the\numexpr\value{@wpactpart}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{Lead beneficiary}} &
+  \multicolumn{\the\numexpr\value{@wpcol}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{Lead beneficiary}} &
   \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{\disptoken{@wpLeader\arabic{@wpcount}} (\csname @pShortName\csname @wpLeader\arabic{@wpcount}\endcsname\endcsname) } \\
   \hline
 
   \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package title}} &
-  \multicolumn{\value{@wpactpart}}{@{\hspace{6pt}}>{\hsize=\dimexpr\value{@wpactpart}\hsize+\value{@wpactpart}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
+  \multicolumn{\value{@wpcol}}{@{\hspace{6pt}}>{\hsize=\dimexpr\value{@wpcol}\hsize+\value{@wpcol}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
   \hline
 
   \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Participant number}}
@@ -518,7 +518,7 @@
 
   \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Start month}} &
   \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}StartMonth}} &
-  \multicolumn{\the\numexpr\value{@wpactpart}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{End month}} &
+  \multicolumn{\the\numexpr\value{@wpcol}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{End month}} &
   \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}EndMonth}} \\
   \hline
   \end{tabularx}%
