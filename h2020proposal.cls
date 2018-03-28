@@ -465,16 +465,32 @@
 % WP Table row
 \newcounter{@wppart}
 \newcounter{@wpcol}%
+\newcounter{@wpfillcol}
 
 \newcommand{\wptablerow}[1]{%
   \setcounter{@wppart}{0}%
-  \whiledo{\value{@wppart}<\value{@wpcol}}{%
+  \setcounter{@wpfillcol}{0}%
+  \ifthenelse{\value{@pcount}<3}{\def\col{3}}{\def\col{\value{@pcount}}}%
+  \def\Line{}%
+  \whiledo{\value{@wppart}<\value{@pcount}}{%
     \stepcounter{@wppart}%
     \@ifundefined{@pmLeader\arabic{@wppart}WP\arabic{@wpcount}}{%
-      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{&}{& #1}%
-    }{& \textbf{#1}}%
+      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{%
+        \stepcounter{@wpfillcol}%
+        \protected@edef\Line{\Line&#1} %
+      }%
+    }{%
+      \stepcounter{@wpfillcol}%
+      \protected@edef\Line{\Line&\bfseries#1}%
+    }%
+    \ifthenelse{\value{@wppart}=\the\numexpr\col-1\relax}{%
+      \whiledo{\value{@wpfillcol}<3}{%
+        \stepcounter{@wpfillcol}%
+        \protected@edef\Line{\Line&}%
+      }%
+    }{}%
   }%
-  \\
+  \Line \\
   \hline
 }%
 
@@ -494,7 +510,7 @@
   }%
   \ifthenelse{\value{@wpcol}<3}{\setcounter{@wpcol}{3}}{}%
   \vspace{-9pt}
-  \begin{tabularx}{\textwidth}{|p{10em}|*{\value{@wpcol}}{>{\centering\arraybackslash}X|}}
+  \begin{tabularx}{\textwidth}{|p{10.5em}|*{\value{@wpcol}}{>{\centering\arraybackslash}X|}}
 
   \hline
   \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package number}} &
@@ -507,13 +523,13 @@
   \multicolumn{\value{@wpcol}}{@{\hspace{6pt}}>{\hsize=\dimexpr\value{@wpcol}\hsize+\value{@wpcol}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
   \hline
 
-  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Participant number}}
+  \hspace{6pt}\textbf{Participant number}
   \wptablerow{\arabic{@wppart}}
 
-  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Short name}}
+  \hspace{6pt}\textbf{Short name}
   \wptablerow{\disptoken{@pShortName\arabic{@wppart}}}
 
-  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Person months}}
+  \hspace{6pt}\textbf{Person months}
   \wptablerow{\disptoken{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}}
 
   \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Start month}} &
