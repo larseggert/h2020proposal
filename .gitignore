@@ -17,6 +17,7 @@
 *.lwp
 *.mw
 *.out
+*.wpt
 *.run.xml
 *.synctex.gz
 *.toc

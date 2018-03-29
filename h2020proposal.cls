@@ -81,6 +81,10 @@
 \usepackage{eurosym}
 \usepackage{morewrites}
 \usepackage[width=\textwidth]{caption}
+% \usepackage[absolute, overlay]{textpos}
+
+% \setlength{\TPHorizModule}{1mm}
+% \setlength{\TPVertModule}{1mm}
 
 \usetikzlibrary{calc, fit}
 
@@ -301,7 +305,7 @@
 \newcounter{@wpcolidx}
 \newcounter{@wpcountgroups}
 \newcounter{@wptotgroups}
-\newcounter{@pmpnum}
+% \newcounter{@pmpnum}
 
 % \renewcommand{\the@wpcount}{WP.\arabic{@wpcount}}
 \renewcommand{\the@wptask}{T\the@wpcount.\arabic{@wptask}}
@@ -316,14 +320,18 @@
 \newcommand{\wpend}[1]{%
 \expandafter\xdef\csname @wp\arabic{@wpcount}EndMonth\endcsname{#1}
 }%
-\newcommand{\wptype}[1]{%
-\expandafter\xdef\csname @wp\arabic{@wpcount}Type\endcsname{#1}
+% \newcommand{\wptype}[1]{%
+% \expandafter\xdef\csname @wp\arabic{@wpcount}Type\endcsname{#1}
+% }%
+\newcommand{\wplead}[1]{%
+\expandafter\xdef\csname @wp\arabic{@wpcount}Lead\endcsname{#1}
+\expandafter\xdef\csname @wpLeader\arabic{@wpcount}\endcsname{\getPnum{#1}}
 }%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Work package environment
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newenvironment{workpackage}[2]%
+\newenvironment{workpackage}[3]%
 {%
   \refstepcounter{@wpcount}
 
@@ -334,10 +342,21 @@
   \setcounter{@wpgroup}{0}
   \setcounter{@wptotgroups}{0}
 
+  \setcounter{@wppart}{0}
+  \whiledo{\value{@wppart}<\value{@pcount}}{
+    \stepcounter{@wppart}
+    \newcounter{@pmPart\arabic{@wppart}WP\arabic{@wpcount}}
+  }
+
   \clearpage
-  \ifthenelse{\equal{#2}{}}{}{\label{#2}}%
-  \subsection{Work Package \arabic{@wpcount}: #1}
-  \wptitle{#1}%
+  \ifthenelse{\equal{#3}{}}{}{\label{#3}}%
+  \subsection{Work Package \arabic{@wpcount}: #2}
+  % \vspace{37.5mm}
+
+  \wptitle{#2}%
+  \wplead{#1}%
+  \wpstart{\arabic{@duration}}
+  \wpend{0}
   \noindent
 
   % WP objectives environment
@@ -372,40 +391,99 @@
   \ignorespacesafterend
 }%
 
-\newcommand{\wptask}[7]
-{% leader, contributors, start, end, title, label, description
-  \refstepcounter{@wptask}
-  \stepcounter{@tottask}
-  \stepcounter{@wp\arabic{@wpcount}tottk}
-  % Linear vector for task list index entries
-  \newcounter{@tk\arabic{@tottask}WP}
-  \setcounter{@tk\arabic{@tottask}WP}{\value{@wpcount}}
-  \newcounter{@tk\arabic{@tottask}T}
-  \setcounter{@tk\arabic{@tottask}T}{\value{@wptask}}
-  % Strings
+
+\newcommand{\personmonths}{%
+  \@ifstar
+  \personmonthslead%
+  \personmonthspart%
+}
+
+\newcommand{\personmonthslead}[2]{
   \expandafter\xdef\csname
   @wp\arabic{@wpcount}Task\arabic{@wptask}Leader\endcsname{\getPnum{#1}}
   \expandafter\xdef\csname
   @wp\arabic{@wpcount}Task\arabic{@wptask}PI\endcsname{#1}
-  \expandafter\xdef\csname
-  @wp\arabic{@wpcount}Task\arabic{@wptask}Contributors\endcsname{#2}
-  \expandafter\xdef\csname
-  @wp\arabic{@wpcount}Task\arabic{@wptask}Start\endcsname{#3}
-  \expandafter\xdef\csname
-  @wp\arabic{@wpcount}Task\arabic{@wptask}End\endcsname{#4}
-  \expandafter\xdef\csname
-  @wp\arabic{@wpcount}Task\arabic{@wptask}Title\endcsname{#5}
-  \vspace{1em}
-  \textbf{\uline{Task \the@wptask:  #5  \hfill \hfill (%
-  \ifthenelse{\equal{#3}{0}}{\todo{M#3}}{M#3}--%
-  \ifthenelse{\equal{#4}{0}}{\todo{M#4}}{M#4}%
-  )}}  \\
-  \textit{Leader: #1}
-  \ifthenelse{\equal{#2}{}}{}{\textit{\\Contributors: #2}}
-  \ifthenelse{\equal{#6}{}}{}{\label{#6}}
 
-  #7
+  \personmonthspart{#1}{#2}
+}
+
+\newcommand{\personmonthspart}[2]{
+  \addtocounter{@wp\arabic{@wpcount}totpm}{#2}
+  \addtocounter{@p\getPnum{#1}totpm}{#2}
+  \addtocounter{@pmPart\getPnum{#1}WP\arabic{@wpcount}}{#2}
+  \addtocounter{@wp\arabic{@wpcount}Task\arabic{@wptask}totpm}{#2}
+  \addtocounter{@totpm}{#2}
+
+  \expandafter\xdef\csname
+  @pmPart\getPnum{#1}WP\arabic{@wpcount}Task\arabic{@wptask}\endcsname{#2}
+}
+
+\newcommand{\wptasktitle}[1]{%
+  \expandafter\xdef\csname
+  @wp\arabic{@wpcount}Task\arabic{@wptask}Title\endcsname{#1}
 }%
+
+\newcommand{\wptaskstart}[1]{%
+  \expandafter\xdef\csname
+  @wp\arabic{@wpcount}Task\arabic{@wptask}Start\endcsname{#1}
+}%
+
+\newcommand{\wptaskend}[1]{%
+  \expandafter\xdef\csname
+  @wp\arabic{@wpcount}Task\arabic{@wptask}End\endcsname{#1}
+}%
+
+\newenvironment{wptask}[4]{
+  \refstepcounter{@wptask}
+  \stepcounter{@tottask}
+  \stepcounter{@wp\arabic{@wpcount}tottk}
+  \newcounter{@tk\arabic{@tottask}WP}
+  \setcounter{@tk\arabic{@tottask}WP}{\value{@wpcount}}
+  \newcounter{@tk\arabic{@tottask}T}
+  \setcounter{@tk\arabic{@tottask}T}{\value{@wptask}}
+  \newcounter{@wp\arabic{@wpcount}Task\arabic{@wptask}totpm}
+  \wptaskstart{#1}
+  \wptaskend{#2}
+  \wptasktitle{#3}
+  \label{#4}
+}
+
+\newcommand\makewptaskhead{
+  \vspace{1em}
+  \textbf{\uline{Task \the@wptask: \disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Title} \hfill \hfill (%
+  \ifthenelse{\equal{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}{0}}{\todo{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}}{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}--%
+  \ifthenelse{\equal{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}{0}}{\todo{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}}{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}%
+  )}}  \\
+  %
+  \def\lead{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}PI}}
+  \textit{Leader: \lead}
+  \textit{(\disptoken{@pmPart\getPnum{\lead}WP\arabic{@wpcount}Task\arabic{@wptask}}~PM)}
+  %
+  \setcounter{@wppart}{0}%
+  \def\first{0}%
+  \whiledo{\value{@wppart}<\value{@pcount}}{%
+    \stepcounter{@wppart}%
+    \@ifundefined{@pmPart\arabic{@wppart}WP\arabic{@wpcount}Task\arabic{@wptask}}{}{%
+      \ifthenelse{\NOT \value{@wppart}=\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Leader}}{%
+        \ifthenelse{\first=0}{\\ \textit{Contributors:} \def\first{1}}{, }%
+        \textit{\disptoken{@pShortName\arabic{@wppart}}}
+        \textit{(\disptoken{@pmPart\arabic{@wppart}WP\arabic{@wpcount}Task\arabic{@wptask}}~PM)}%
+      }{}%
+    }%
+  }%
+  % adjust WP start and end month
+  \ifthenelse{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}<\disptoken{@wp\arabic{@wpcount}StartMonth}}{
+    \expandafter\xdef\csname
+      @wp\arabic{@wpcount}StartMonth\endcsname{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}
+  }{}
+  \ifthenelse{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}>\disptoken{@wp\arabic{@wpcount}EndMonth}}{
+    \expandafter\xdef\csname
+      @wp\arabic{@wpcount}EndMonth\endcsname{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}
+  }{}
+  % following empty line is needed!
+
+}
+
 
 \newcommand{\wpdeliverable}[6][12]
 { % [delivery date]{leader}{nature}{dissemination level}{title}{label}
@@ -440,27 +518,6 @@
   \textit{Leader: #2}\ifthenelse{\equal{#6}{}}{}{\label{#6}}
   }%
 
-\newcommand{\personmonths}{\@ifnextchar{*}{\@leaderpersonmonths}{\@personmonths}}
-\def\@leaderpersonmonths*#1#2{%
-  \stepcounter{@wptotgroups}
-  \addtocounter{@wp\arabic{@wpcount}totpm}{#2}
-  \setcounter{@pmpnum}{\getPnum{#1}}
-  \expandafter\xdef\csname @wpLeader\arabic{@wpcount}\endcsname{\getPnum{#1}}
-  \addtocounter{@p\arabic{@pmpnum}totpm}{#2}
-  \expandafter\xdef\csname
-  @pmParticipant\arabic{@pmpnum}WP\arabic{@wpcount}\endcsname{#2}
-  \expandafter\xdef\csname
-  @pmLeader\arabic{@pmpnum}WP\arabic{@wpcount}\endcsname{#2}
-}%
-
-\newcommand{\@personmonths}[2]{%
-  \stepcounter{@wptotgroups}
-  \addtocounter{@wp\arabic{@wpcount}totpm}{#2}
-  \setcounter{@pmpnum}{\getPnum{#1}}
-  \addtocounter{@p\arabic{@pmpnum}totpm}{#2}
-  \expandafter\xdef\csname
-  @pmParticipant\arabic{@pmpnum}WP\arabic{@wpcount}\endcsname{#2}
-}%
 
 % WP Table row
 \newcounter{@wppart}
@@ -471,77 +528,84 @@
   \setcounter{@wppart}{0}%
   \setcounter{@wpfillcol}{0}%
   \ifthenelse{\value{@pcount}<3}{\def\col{3}}{\def\col{\value{@pcount}}}%
-  \def\Line{}%
   \whiledo{\value{@wppart}<\value{@pcount}}{%
     \stepcounter{@wppart}%
-    \@ifundefined{@pmLeader\arabic{@wppart}WP\arabic{@wpcount}}{%
-      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{%
-        \stepcounter{@wpfillcol}%
-        \protected@edef\Line{\Line&#1} %
-      }%
-    }{%
+    \ifthenelse{\arabic{@pmPart\arabic{@wppart}WP\arabic{@wpcount}}=0}{}{
       \stepcounter{@wpfillcol}%
-      \protected@edef\Line{\Line&\bfseries#1}%
+      \ifthenelse{\disptoken{@wpLeader\arabic{@wpcount}}=\value{@wppart}}{%
+        \immediate\write\wpfile{&\noexpand\bfseries#1}
+      }{%
+        \immediate\write\wpfile{&#1}
+      }%
     }%
     \ifthenelse{\value{@wppart}=\the\numexpr\col-1\relax}{%
       \whiledo{\value{@wpfillcol}<3}{%
         \stepcounter{@wpfillcol}%
-        \protected@edef\Line{\Line&}%
+        \immediate\write\wpfile{&}
       }%
     }{}%
   }%
-  \Line \\
-  \hline
+  \immediate\write\wpfile{\noexpand\\}
+  \immediate\write\wpfile{\noexpand\hline}
 }%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % WP Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\makewptable} {%
-  \setlength\tabcolsep{0pt}%
-  \renewcommand{\arraystretch}{1.2}%
+  \InputIfFileExists{\jobname.\arabic{@wpcount}.wpt}{}{
+    \ClassWarning{h2020proposal}{\ClassWarning{h2020proposal}{No
+      WP\arabic{@wpcount} data defined yet. Use the \texttt{wpobjectives} environment
+      to define the new WP\arabic{@wpcount}.}}%
+}}%
+
+
+\newcommand{\writewptable} {%
+  \newwrite\wpfile
+  \immediate\openout\wpfile=\jobname.\arabic{@wpcount}.wpt
+  \immediate\write\wpfile{\noexpand\setlength\tabcolsep{0pt}}
+  \immediate\write\wpfile{\noexpand\renewcommand{\noexpand\arraystretch}{1.2}}
   \setcounter{@wpcol}{0}%
   \setcounter{@wppart}{0}%
   \whiledo{\value{@wppart}<\value{@pcount}}{%
     \stepcounter{@wppart}%
-    \@ifundefined{@pmLeader\arabic{@wppart}WP\arabic{@wpcount}}{%
-      \@ifundefined{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}{}{\stepcounter{@wpcol}}%
-    }{\stepcounter{@wpcol}}%
+    \ifthenelse{\arabic{@pmPart\arabic{@wppart}WP\arabic{@wpcount}}>0}{%
+      \stepcounter{@wpcol}%
+    }{}%
   }%
   \ifthenelse{\value{@wpcol}<3}{\setcounter{@wpcol}{3}}{}%
-  \vspace{-9pt}
-  \begin{tabularx}{\textwidth}{|p{10.5em}|*{\value{@wpcol}}{>{\centering\arraybackslash}X|}}
+  % \immediate\write\wpfile{\noexpand\vspace{-9pt}}
+  \immediate\write\wpfile{\noexpand\begin{tabularx}{\textwidth}{|p{10.5em}|*{\arabic{@wpcol}}{>{\noexpand\centering\noexpand\arraybackslash}X|}}}
+  \immediate\write\wpfile{\noexpand\hline}
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{|@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{\noexpand\textbf{Work package number}} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{WP\the@wpcount} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{\the\numexpr\arabic{@wpcol}-2\relax}{@{\noexpand\hspace{6pt}}r@{\noexpand\hspace{6pt}}|}{\noexpand\textbf{Lead beneficiary}} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{\disptoken{@wpLeader\arabic{@wpcount}} (\csname @pShortName\csname @wpLeader\arabic{@wpcount}\endcsname\endcsname) } \noexpand\\}
+  \immediate\write\wpfile{\noexpand\hline}
 
-  \hline
-  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package number}} &
-  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{WP\the@wpcount} &
-  \multicolumn{\the\numexpr\value{@wpcol}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{Lead beneficiary}} &
-  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{\disptoken{@wpLeader\arabic{@wpcount}} (\csname @pShortName\csname @wpLeader\arabic{@wpcount}\endcsname\endcsname) } \\
-  \hline
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{|@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{\noexpand\textbf{Work package title}} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{\arabic{@wpcol}}{@{\noexpand\hspace{6pt}}>{\noexpand\hsize=\noexpand\dimexpr\arabic{@wpcol}\noexpand\hsize+\arabic{@wpcol}\tabcolsep+\arrayrulewidth\relax}X|}{\noexpand\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \noexpand\\}
+  \immediate\write\wpfile{\noexpand\hline}
 
-  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Work package title}} &
-  \multicolumn{\value{@wpcol}}{@{\hspace{6pt}}>{\hsize=\dimexpr\value{@wpcol}\hsize+\value{@wpcol}\tabcolsep+\arrayrulewidth\relax}X|}{\textbf{\disptoken{@wp\arabic{@wpcount}Title}}} \\
-  \hline
-
-  \hspace{6pt}\textbf{Participant number}
+  \immediate\write\wpfile{\noexpand\hspace{6pt}\noexpand\textbf{Participant number}}
   \wptablerow{\arabic{@wppart}}
 
-  \hspace{6pt}\textbf{Short name}
+  \immediate\write\wpfile{\noexpand\hspace{6pt}\noexpand\textbf{Short name}}
   \wptablerow{\disptoken{@pShortName\arabic{@wppart}}}
 
-  \hspace{6pt}\textbf{Person months}
-  \wptablerow{\disptoken{@pmParticipant\arabic{@wppart}WP\arabic{@wpcount}}}
+  \immediate\write\wpfile{\noexpand\hspace{6pt}\noexpand\textbf{Person months}}
+  \wptablerow{\arabic{@pmPart\arabic{@wppart}WP\arabic{@wpcount}}}
 
-  \multicolumn{1}{|@{\hspace{6pt}}l@{\hspace{6pt}}|}{\textbf{Start month}} &
-  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}StartMonth}} &
-  \multicolumn{\the\numexpr\value{@wpcol}-2\relax}{@{\hspace{6pt}}r@{\hspace{6pt}}|}{\textbf{End month}} &
-  \multicolumn{1}{@{\hspace{6pt}}l@{\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}EndMonth}} \\
-  \hline
-  \end{tabularx}%
-  \addtocounter{@totpm}{\value{@wp\arabic{@wpcount}totpm}}%
-  \setlength\tabcolsep{3pt}%
-  \renewcommand{\arraystretch}{1}%
-  \vspace{-9pt}
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{|@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{\noexpand\textbf{Start month}} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}StartMonth}} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{\the\numexpr\value{@wpcol}-2\relax}{@{\noexpand\hspace{6pt}}r@{\noexpand\hspace{6pt}}|}{\noexpand\textbf{End month}} &}
+  \immediate\write\wpfile{\noexpand\multicolumn{1}{@{\noexpand\hspace{6pt}}l@{\noexpand\hspace{6pt}}|}{M\disptoken{@wp\arabic{@wpcount}EndMonth}} \noexpand\\}
+  \immediate\write\wpfile{\noexpand\hline}
+  \immediate\write\wpfile{\noexpand\end{tabularx}}
+  \immediate\write\wpfile{\noexpand\setlength\tabcolsep{3pt}}
+  \immediate\write\wpfile{\noexpand\renewcommand{\noexpand\arraystretch}{1}}
+  \immediate\write\wpfile{\noexpand\vspace{-9pt}}
 }%
 
 
@@ -1093,19 +1157,14 @@
           \setcounter{@wpcolgroup}{0}
           \whiledo{\value{@wpcolgroup}<\value{@wpcount}}{%
             \stepcounter{@wpcolgroup}
-            \@ifundefined{@pmLeader\arabic{@row}WP\arabic{@wpcolgroup}}
-            {%
-              \@ifundefined{@pmParticipant\arabic{@row}WP\arabic{@wpcolgroup}}
-              {%
-                \immediate\write\soelistfile{& 0} }{%
-                \immediate\write\soelistfile{%
-                  & \csname
-                  @pmParticipant\arabic{@row}WP\arabic{@wpcolgroup}\endcsname
-                }%
-              }}{ \immediate\write\soelistfile{%
-                & \noexpand\textbf{\csname
-                  @pmParticipant\arabic{@row}WP\arabic{@wpcolgroup}\endcsname}
-              }}}%
+            \ifthenelse{\arabic{@pmPart\arabic{@row}WP\arabic{@wpcolgroup}}=0}{%
+              \immediate\write\soelistfile{& }
+            }{%
+              \immediate\write\soelistfile{%
+                & \arabic{@pmPart\arabic{@row}WP\arabic{@wpcolgroup}}
+              }%
+            }
+          }%
           \ifthenelse{\value{@wpcolempty}>0}%
           {%
             \immediate\write\soelistfile{%
@@ -1151,13 +1210,14 @@
   \setcounter{@row}{0} \newwrite\tklistfile
   \immediate\openout\tklistfile=\jobname.ltk
   \immediate\write\tklistfile{%
-    \noexpand\begin{tabularx}{\textwidth}{|c|c|c|c|X|}
+    \noexpand\begin{tabularx}{\textwidth}{|c|c|c|c|r|X|}
     }%
     \immediate\write\tklistfile{\noexpand\hline}
     \immediate\write\tklistfile{%
       {\noexpand\textbf{Task}} & {\noexpand\textbf{Leader}} &
       {\noexpand\textbf{\noexpand\makecell[c]{Start\noexpand\\date}}} &
       {\noexpand\textbf{\noexpand\makecell[c]{End\noexpand\\date}}} &
+      {\noexpand\textbf{\noexpand\makecell[c]{Person\noexpand\\months}}} &
       {\noexpand\textbf{Title}} \noexpand\\
     }%
     \immediate\write\tklistfile{\noexpand\hline}%
@@ -1175,13 +1235,14 @@
           @wp\arabic{@tk\arabic{@row}WP}Task\arabic{@tk\arabic{@row}T}Start\endcsname &
           M\csname
           @wp\arabic{@tk\arabic{@row}WP}Task\arabic{@tk\arabic{@row}T}End\endcsname &
+          \arabic{@wp\arabic{@tk\arabic{@row}WP}Task\arabic{@tk\arabic{@row}T}totpm} &
           \csname
           @wp\arabic{@tk\arabic{@row}WP}Task\arabic{@tk\arabic{@row}T}Title\endcsname
           \noexpand\\}%
         \immediate\write\tklistfile{\noexpand\hline}
       }%
     }%
-    \immediate\write\tklistfile{\noexpand\caption{List of tasks.} \noexpand\label{tab:3.4a}}
+    \immediate\write\tklistfile{\noexpand\caption{List of tasks.} \noexpand\label{tab:tasklist}}
     \immediate\write\tklistfile{\noexpand\end{tabularx}}%
   \closeout\tklistfile }%
 
@@ -1255,7 +1316,7 @@
 }%
 
 
-% Create auxiliary file with table data
+% Create auxiliary files with table data
 \AtEndDocument{%
   \writewplist
   \writedelivlist
@@ -1266,4 +1327,11 @@
   \writecolist
   \writelrilist
   \writegntdata
+  \newcounter{@wpc}
+  \setcounter{@wpc}{\arabic{@wpcount}}
+  \setcounter{@wpcount}{0}
+  \whiledo{\value{@wpcount}<\value{@wpc}}{
+    \stepcounter{@wpcount}
+    \writewptable{}
+  }
 }%

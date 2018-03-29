@@ -1,13 +1,6 @@
 %!TEX root = proposal.tex
 
-\begin{workpackage}{Project management}{wp:mgmt}
-
-\wpstart{1}
-\wpend{36}
-\wptype{MGT}
-
-\personmonths*{COORD}{2}
-\personmonths{TWO}{10}
+\begin{workpackage}{COORD}{Project management}{wp:mgmt}
 
 \makewptable{}
 
@@ -17,13 +10,20 @@ The high-level objectives of \autoref{wp:mgmt} are\dots
 
 \begin{wpdescription}
 
-\wptask{COORD}{TWO}{1}{12}{Management task}{t:mgmt}{
-\autoref{t:mgmt} is led by COORD\@. It is responsible for\dots
-}
+\begin{wptask}{1}{12}{Management task}{t:mgmt}
+\personmonths*{COORD}{1}
+\personmonths{TWO}{2}
+\makewptaskhead{}
 
-\wptask{TWO}{COORD}{12}{36}{Another task}{t:another}{
-\autoref{t:another} is led by TWO and will work\dots
-}
+This is \autoref{t:mgmt}.
+\end{wptask}
+
+\begin{wptask}{11}{33}{Another task}{t:another}
+\personmonths*{COORD}{1}
+\makewptaskhead{}
+
+This is \autoref{t:another}. \lipsum
+\end{wptask}
 
 \end{wpdescription}
 
