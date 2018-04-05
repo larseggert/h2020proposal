@@ -72,7 +72,7 @@
 \usepackage{newtxtext}
 \usepackage[hypertexnames=false, bookmarks=false, hidelinks]{hyperref}
 \usepackage{multirow}
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 \usepackage{siunitx}
 \usepackage{ltablex}
 \usepackage{makecell}
@@ -81,10 +81,6 @@
 \usepackage{eurosym}
 \usepackage{morewrites}
 \usepackage[width=\textwidth]{caption}
-% \usepackage[absolute, overlay]{textpos}
-
-% \setlength{\TPHorizModule}{1mm}
-% \setlength{\TPVertModule}{1mm}
 
 \usetikzlibrary{calc, fit}
 
@@ -453,24 +449,26 @@
   \textbf{\uline{Task \the@wptask: \disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Title} \hfill \hfill (%
   \ifthenelse{\equal{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}{0}}{\todo{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}}{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}}--%
   \ifthenelse{\equal{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}{0}}{\todo{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}}{M\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}%
-  )}}  \\
+  )}}
   %
-  \def\lead{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}PI}}
-  \textit{Leader: \lead}
+  \def\lead{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}PI}}%
+  \def\first{0}%
+  \setcounter{@wppart}{0}%
+  \begin{description}[nosep, leftmargin=6.15em, style=nextline, topsep=-6pt, font=\normalfont]%
+  \item[\textit{Leader:}] \textit{\lead}~%
   \textit{(\disptoken{@pmPart\getPnum{\lead}WP\arabic{@wpcount}Task\arabic{@wptask}}~PM)}
   %
-  \setcounter{@wppart}{0}%
-  \def\first{0}%
   \whiledo{\value{@wppart}<\value{@pcount}}{%
     \stepcounter{@wppart}%
     \@ifundefined{@pmPart\arabic{@wppart}WP\arabic{@wpcount}Task\arabic{@wptask}}{}{%
       \ifthenelse{\NOT \value{@wppart}=\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Leader}}{%
-        \ifthenelse{\first=0}{\\ \textit{Contributors:} \def\first{1}}{, }%
-        \textit{\disptoken{@pShortName\arabic{@wppart}}}
+        \ifthenelse{\first=0}{\item[\textit{Contributors:}] \def\first{1}}{\textit{, }}%
+        \textit{\disptoken{@pShortName\arabic{@wppart}}}~%
         \textit{(\disptoken{@pmPart\arabic{@wppart}WP\arabic{@wpcount}Task\arabic{@wptask}}~PM)}%
       }{}%
     }%
   }%
+  \end{description}
   % adjust WP start and end month
   \ifthenelse{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}Start}<\disptoken{@wp\arabic{@wpcount}StartMonth}}{
     \expandafter\xdef\csname
@@ -480,8 +478,7 @@
     \expandafter\xdef\csname
       @wp\arabic{@wpcount}EndMonth\endcsname{\disptoken{@wp\arabic{@wpcount}Task\arabic{@wptask}End}}
   }{}
-  % following empty line is needed!
-
+  \vspace{6pt}
 }
 
 
