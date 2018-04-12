@@ -441,7 +441,7 @@
   \wptaskstart{#1}
   \wptaskend{#2}
   \wptasktitle{#3}
-  \label{#4}
+  \ifthenelse{\equal{#4}{}}{}{\label{#4}}%
 }
 
 \newcommand\makewptaskhead{
