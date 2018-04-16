@@ -665,7 +665,7 @@
   \setcounter{@row}{0}
   \newwrite\colistfile
   \immediate\openout\colistfile=\jobname.lco
-  \immediate\write\colistfile{\noexpand\begin{tabularx}{\textwidth}{|p{10em}|r|X|}}
+  \immediate\write\colistfile{\noexpand\begin{tabularx}{\textwidth}{|l|r|X|}}
   \whiledo{\value{@row}<\value{@pcount}}{%
     \stepcounter{@row}
     \setcounter{@totcosts}{0}
@@ -692,8 +692,7 @@
     }{%
       \immediate\write\colistfile{%
         \noexpand\hline
-        \noexpand\textbf{Participant \arabic{@row}}
-        \noexpand\textbf{(\csname @pShortName\arabic{@row}\endcsname)} &
+        \noexpand\makecell[l]{\noexpand\textbf{Participant \arabic{@row}}\noexpand\\\noexpand\textbf{(\csname @pShortName\arabic{@row}\endcsname)}} &
         \noexpand\textbf{Cost (\noexpand\euro)} &
         \noexpand\textbf{Justification}
         \noexpand\\
@@ -725,7 +724,7 @@
       \ifthenelse{\boolean{@dcodefined}}{%
         \addtocounter{@totcosts}{\value{@dcopnum\arabic{@row}}}
         \immediate\write\colistfile{%
-          \noexpand\textbf{Other goods \& services} &
+          \noexpand\makecell[l]{\noexpand\textbf{Other goods}\noexpand\\\noexpand\textbf{\& services}} &
           \noexpand\num{\arabic{@dcopnum\arabic{@row}}} &
           \csname @oJustification\arabic{@row}\endcsname
           \noexpand\\\noexpand\hline}
