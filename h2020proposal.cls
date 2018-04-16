@@ -508,11 +508,13 @@
   \expandafter\xdef\csname
   @wp\arabic{@wpcount}Deliv\arabic{@wpdeliv}Title\endcsname{#5}
   % Output
+
   \vspace{1em}
   \textbf{\uline{Deliverable {\the@wpdeliv}: #5 \hfill \hfill (%
   \ifthenelse{\equal{#1}{0}}{\todo{M#1}}{M#1}%
   )}} \\
   \textit{Leader: #2}\ifthenelse{\equal{#6}{}}{}{\label{#6}}
+
   }%
 
 
