@@ -667,6 +667,7 @@
   \newwrite\colistfile
   \immediate\openout\colistfile=\jobname.lco
   \immediate\write\colistfile{\noexpand\begin{tabularx}{\textwidth}{|l|r|X|}}
+  \def\first{1}
   \whiledo{\value{@row}<\value{@pcount}}{%
     \stepcounter{@row}
     \setcounter{@totcosts}{0}
@@ -691,6 +692,11 @@
     	\OR
       \boolean{@dcodefined}
     }{%
+      \ifthenelse{\first=1}{%
+        \def\first{0}%
+      }{%
+        \immediate\write\colistfile{\noexpand\multicolumn{3}{c}{}\noexpand\\}%
+      }%
       \immediate\write\colistfile{%
         \noexpand\hline
         \noexpand\makecell[l]{\noexpand\textbf{Participant \arabic{@row}}\noexpand\\\noexpand\textbf{(\csname @pShortName\arabic{@row}\endcsname)}} &
@@ -735,9 +741,6 @@
           {\noexpand\num{\arabic{@totcosts}}} &
           \noexpand\\\noexpand\hline
       }
-      \ifthenelse{\value{@row}<\value{@pcount}}{
-        \immediate\write\colistfile{\noexpand\multicolumn{3}{c}{}\noexpand\\}
-      }{}%
     }{}%
   }%
   \immediate\write\colistfile{%
