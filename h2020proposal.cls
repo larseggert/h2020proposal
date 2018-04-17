@@ -248,6 +248,7 @@
   \setcounter{@pcountminusone}{\value{@pcount}}
   \addtocounter{@pcountminusone}{-1}
   % create Participants table
+  \vspace{-12pt}
   \begin{tabularx}{\textwidth}{|l|X|c|c|}
     \hline
     \textbf{\makecell[l]{Participant\\number}} &
@@ -259,7 +260,7 @@
     \ptablerow{@ptable} % add last row by hand to get tabularx to
     % work properly
   \end{tabularx}
-  \vspace{8em}
+  \vspace{2em}
 }%
 
 
