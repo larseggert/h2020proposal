@@ -8,7 +8,7 @@
 % Bartolozzi. Major extensions by Lars Eggert.
 %
 % Copyright (c) 2010, Giacomo Indiveri
-% Copyright (c) 2017, Lars Eggert
+% Copyright (c) 2017-2018, Lars Eggert
 %
 % This latex class is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -45,9 +45,9 @@
 \if@draftmode%
   \typeout{** ATTENTION: DRAFT mode.}%
   \LoadClass[article,a4paper,draft,showtrims,11pt,oneside]{memoir}%
-  \usepackage[notref,notcite]{showkeys}
+  \usepackage[color]{showkeys}
   \usepackage[final]{rotating}
-  \renewcommand{\showkeyslabelformat}[1]{\begin{sideways} \framebox{\normalfont\tiny\ttfamily\color{red}#1} \end{sideways}}
+  \renewcommand{\showkeyslabelformat}[1]{\begin{sideways}\framebox{\normalfont\tiny\ttfamily\color{red}#1}\end{sideways}}
 \else
   \LoadClass[article,a4paper,11pt,oneside]{memoir}%
 \fi%
@@ -70,7 +70,7 @@
 % \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{newtxtext}
-\usepackage[hypertexnames=false, bookmarks=false, hidelinks]{hyperref}
+\usepackage[hypertexnames=false, bookmarks=false, hidelinks, draft=false]{hyperref}
 \usepackage{multirow}
 \usepackage[inline]{enumitem}
 \usepackage{siunitx}
@@ -81,6 +81,7 @@
 \usepackage{eurosym}
 \usepackage{morewrites}
 \usepackage[width=\textwidth]{caption}
+\usepackage[multiple, stable, hang, bottom]{footmisc}
 
 \usetikzlibrary{calc, fit}
 

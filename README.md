@@ -8,7 +8,7 @@ the 2008 ProposalB-template.tex files by Elisabetta Chicca and Chiara
 Bartolozzi. Major extensions by Lars Eggert.
 
 Copyright (c) 2010, Giacomo Indiveri
-Copyright (c) 2017, Lars Eggert
+Copyright (c) 2017-2018, Lars Eggert
 
 This latex class is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
