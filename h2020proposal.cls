@@ -539,7 +539,7 @@
         \immediate\write\wpfile{&#1}
       }%
     }%
-    \ifthenelse{\value{@wppart}=\the\numexpr\col-1\relax}{%
+    \ifthenelse{\value{@wppart}=\col}{%
       \whiledo{\value{@wpfillcol}<3}{%
         \stepcounter{@wpfillcol}%
         \immediate\write\wpfile{&}
